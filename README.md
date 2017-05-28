@@ -11,7 +11,7 @@ Examples:
 - Eratosthene sieve
 - a ring of processes
 - life game (graphical)
-- espace de Mandelbrot (graphical) 
+- Mandelbrot space (graphical) 
 
 Compilation:
 -----------
