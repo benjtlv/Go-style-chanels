@@ -5,6 +5,8 @@ System programming project. Master degree's first year
 
 This is a simple representation in C language, of chanels as implemented in the Go language. Used to make threads or Unix processes communicate between each other, in synchronous or asynchronous mode.
 
+You got to have GTK3 installed.
+
 Examples:
 --------
 
