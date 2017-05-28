@@ -1,0 +1,94 @@
+.\" Manpage for fifo implementation.
+.\" Contact colinl.gd@gmail.com.
+.Dd 24 December, 2013
+.Dt FIFO n
+.Sh NAME
+.Nm fifo
+.Nd fifo C implementation.
+.Sh SYNOPSIS
+.In fifo.h
+.Ft fifo_t *
+.Fo new_fifo
+.Fa "void"
+.Fc
+.Ft int
+.Fo fifo_add
+.Fa "fifo_t *fifo"
+.Fa "void *data"
+.Fc
+.Ft void *
+.Fo fifo_top
+.Fa "fifo_t fifo"
+.Fa "void *data"
+.Fc
+.Ft void
+.Fo free_fifo
+.Fa "fifo_t fifo"
+.Fa "void (*)(void *)"
+.Fc
+.Ft int
+.Fo fifo_let
+.Fa "fifo_t fifo"
+.Fc
+.Ft int
+.Fo fifo_empty
+.Fa "fifo_t fifo"
+.Fc
+.Sh DESCRIPTION
+The fifo C implementation allows to use first-in first-out data structure manipulation with the above sub-routines. Fifos are defined by two structs the fifo_t defined as:
+.Bd -literal
+typedef struct fifo_s
+{
+	node_t *f_top;
+	node_t *f_tip;
+}
+fifo_t;
+.Ed
+.Pp
+and the node_t structure defined as:
+.Bd -literal
+typedef struct node_s
+{
+	void *n_data;
+	struct node_s *n_next;
+}
+node_t;
+.Ed
+.Pp
+.Fn New_fifo
+allocates a new and empty fifo.
+.Pp
+.Fn Fifo_add
+adds a new node containing
+.Fa data
+to
+.Fa fifo .
+.Pp
+.Fn Fifo_top
+returns the oldest element of
+.Fa fifo .
+.Pp
+.Fn Free_fifo
+frees the memory allocated for
+.Fa fifo .
+.Pp
+.Fn Fifo_len
+returns the length of
+.Fa fifo .
+.Pp
+.Fn Fifo_empty
+returns more thant zero if it's not empty and zero if empty.
+.Sh RETURN VALUES
+For
+.Fn New_fifo,
+if successful, a pointer to a new fifo is returned. Otherwise, the NULL pointer is returned and the global variable 
+.Fa errno
+is set to indicate the error.
+.Pp
+For 
+.Fn Fifo_add
+upon successful completion zero is returned.  Otherwise, a -1 is returned and the global variable
+.Fa errno
+is set to indicate the error.
+.Sh AUTHOR
+Colin Gonzalez (colinl.gd@gmail.com)

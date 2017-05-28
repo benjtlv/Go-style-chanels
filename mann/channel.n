@@ -1,0 +1,104 @@
+.\" Manpage for channel implementation.
+.\" Contact colinl.gd@gmail.com.
+.Dd 16 May, 2016
+.Dt CHANNEL n
+.Sh NAME
+.Nm channel
+.Nd channel C implementation.
+.Sh SYNOPSIS
+.In channel.h
+.Ft struct channel *
+.Fo channel_create
+.Fa "int eltsize"
+.Fa "int size"
+.Fa "int flags"
+.Fc
+.Ft void
+.Fo channel_destroy
+.Fa "struct channel *channel"
+.Fc
+.Ft int
+.Fo channel_close
+.Fa "struct channel *channel"
+.Fc
+.Ft int
+.Fo channel_send
+.Fa "struct channel *channel"
+.Fa "void * data"
+.Fc
+.Ft int
+.Fo channel_recv
+.Fa "struct channel *channel"
+.Fa "void * data"
+.Fc
+.Sh DESCRIPTION
+The channel C implementation allows to use synchronous and asynchronous channels between several processes or threads. Channels are defined by one struct the struct channel defined as:
+.Bd -literal
+typedef struct channel
+{
+  unsigned int shared;
+  size_t eltsize;
+  unsigned int open;
+  unsigned int size;
+  static_fifo_t *fp;
+  char* data;
+  sem_t* read;
+  sem_t* write;
+  sem_t* access;
+  sem_t* access2;
+};
+.Ed
+.Pp
+.Fn Channel_create
+Create a new channel of size size, of elements of size eltsize, additionnally you can use one of the two flags CHANNEL_PROCESS_SHARED or CHANNEL_PROCESS_UNSHARED to indicate wether or the channel has to be allocated in shared or unshared memory. A channel of size 0 is unbufferd and synchronous (blocking), otherwise, buffered and asynchronous (non blocking).
+.Pp
+.Fn Channel_destroy
+Destroys the channel
+.Fa channel.
+.
+.Pp
+.Fn Channel_close
+Closes
+.Fa channel
+, once the channel is closed it is not possible to send data through it.
+.Pp
+.Fn Channel_send
+Sends
+.Fa data
+over
+.Fa channel.
+When synchronous it is in blocking mode.
+.Pp
+.Fn Channel_recv
+Receives data from
+.Fa channel
+and stores it in
+.Fa data.
+When synchronous it is in blocking mode.
+.Sh RETURN VALUES
+For
+.Fn Channel_create,
+if successful, a pointer to a new struct channel is returned. Otherwise, the NULL pointer is returned and the global variable 
+.Fa errno
+is set to indicate the error.
+.Pp
+For 
+.Fn Channel_close
+upon successful completion zero is returned.  Otherwise, a 1 is returned and the global variable
+.Fa errno
+is set to indicate the error.
+.Pp
+For 
+.Fn Channel_send
+upon successful completion 1 is returned.  Otherwise, a -1 is returned and the global variable
+.Fa errno
+is set to indicate the error. When channels are buffered, if the channel is full, the send operation blocks until the buffer frees up a space.
+.Pp
+For
+.Fn Channel_recv
+upon successful completion 1 is returned.  If the channel is closed and empty, 0 is retruned. Otherwise, the receive operation blocks until the channel is non-empty, or closed. If an error occurs -1 is returned and the global variable
+.Fa errno
+is set to indicate the error.
+.Pp
+.Sh AUTHOR
+Colin Gonzalez (colinl.gd@gmail.com)
