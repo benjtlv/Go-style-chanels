@@ -1,62 +1,35 @@
 Channels
 ========
 
-Implémentation simple de channel à la go en C. Peuvent être utilisés de façons synchrones, entre processus lourds.
+System programming project. Master degree's first year
 
-Arborescence:
--------------
+This is a simple representation in C language, of chanels as implemented in the Go language. Used to make threads or Unix processes communicate between each other, in synchronous or asynchronous mode.
 
-racine : 
-channel.c
-channel.h
-static_fifo.c
-static_fifo.h
-mandelbrot.c
-era.c
-eratosthene.c
-life.c
-life_game.c
-life_game.h
-ring.c
-README.md
-doc/
-mann/
-
-doc:
-rapport.pdf
-
-mann:
-channel.n
-fifo.n
-
-Exemple:
+Examples:
 --------
 
-Crible d'Eratosthène, processus en anneaux (TP 3), jeu de la vie, espace de Mandelbrot. 
+- Eratosthene sieve
+- a ring of processes
+- life game (graphical)
+- espace de Mandelbrot (graphical) 
 
 Compilation:
 -----------
 
 `make example`
 
-plusieurs exemples possibles
+Many use cases :
 
-era [-l limite] [-n nombre de threads] [-s taille de la file] (crible d'Eratosthene avec channels)
-eratosthene (crible d'Eratosthene sans channels)
-ring [-c] (processus en anneaux option c pour la version avec channel)
-life [-z taille de la fenetre] [-n nombre de threads] [-s channels synchrones](jeu de la vie)
-mandelbrot [-n nombre de threads] [-s]
+era [-l limit] [-n threads] [-s fifo size] (Eratosthene sieve with channels)
+eratosthene (Eratosthene sieve without channels - for comparision)
+ring [-c] (processes placed in ring . option c for the channels version)
+life [-z frame size] [-n threads] [-s synchronous mode](life game)
+mandelbrot [-n threads] [-s]
 
 Manuel:
 -------
 
-Pour le manuel de la structure de données fifo.
+Manual of the fifo data structure.
 
 `man -M . channel`
 `man -M . fifo`
-
-Dépot GIT:
-----------
-
-http://moule.informatique.univ-paris-diderot.fr:8080/gonzalez/chanchanchan
-

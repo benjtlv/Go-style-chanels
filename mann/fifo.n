@@ -90,5 +90,3 @@ For
 upon successful completion zero is returned.  Otherwise, a -1 is returned and the global variable
 .Fa errno
 is set to indicate the error.
-.Sh AUTHOR
-Colin Gonzalez (colinl.gd@gmail.com)
